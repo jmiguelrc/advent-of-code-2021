@@ -1,5 +1,3 @@
-import java.lang.Math.pow
-
 fun main() {
     fun part1(input: List<String>): Int {
         return input
@@ -26,15 +24,16 @@ fun main() {
             digitToSignalMap[6] = digitsWith6Segments.first { (digitToSignalMap[7]!! - it).size == 1 }
             digitToSignalMap[9] = digitsWith6Segments.first { (digitToSignalMap[4]!! - it).isEmpty() }
             digitToSignalMap[0] = digitsWith6Segments.first { it !in digitToSignalMap.values }
+
+            digitToSignalMap[2] = digitsWith5Segments.first { (digitToSignalMap[9]!! - it).size == 2 }
             digitToSignalMap[5] = digitsWith5Segments.first { (digitToSignalMap[6]!! - it).size == 1 }
             digitToSignalMap[3] = digitsWith5Segments.first { (digitToSignalMap[5]!! - it).size == 1 }
-            digitToSignalMap[2] = digitsWith5Segments.first { (digitToSignalMap[5]!! - it).size == 2 }
 
             val signalToDigit = digitToSignalMap.map { Pair(it.value, it.key) }.toMap()
             return origLine.split(" | ")[1].split(" ")
                 .map { signalToDigit[it.toSet()]!! }
-                .mapIndexed { index, digitValue -> pow(10.0, 3 - index.toDouble()).toInt() * digitValue }
-                .sum()
+                .joinToString(separator = "")
+                .toInt()
         }
         return input.sumOf { decodeNumber(it) }
     }
